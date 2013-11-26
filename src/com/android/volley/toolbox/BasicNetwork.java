@@ -24,6 +24,7 @@ import com.android.volley.Network;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
+import com.android.volley.OOMError;
 import com.android.volley.Request;
 import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
@@ -147,7 +148,10 @@ public class BasicNetwork implements Network {
                 } else {
                     throw new NetworkError(networkResponse);
                 }
-            }
+            } catch (OutOfMemoryError oome) {
+                VolleyLog.e("OutOfMemoryError in performRequest");
+                throw new OOMError(oome);
+            } 
         }
     }
 
